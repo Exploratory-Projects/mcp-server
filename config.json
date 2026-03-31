@@ -1,0 +1,48 @@
+{
+  "workspace_dir": "./repos",
+  "github_org": "Exploratory-Projects",
+  "repos": [
+    {
+      "name": "voice-backend-v2",
+      "url": "https://github.com/Exploratory-Projects/voice-backend-v2.git",
+      "language": "python",
+      "description": "Voice backend service v2"
+    },
+    {
+      "name": "admin-dashboard",
+      "url": "https://github.com/Exploratory-Projects/admin-dashboard.git",
+      "language": "python",
+      "description": "Admin dashboard"
+    },
+    {
+      "name": "selinium-browser-automation",
+      "url": "https://github.com/Exploratory-Projects/selinium-browser-automation.git",
+      "language": "python",
+      "description": "Selenium browser automation"
+    },
+    {
+      "name": "chatbot-backend",
+      "url": "https://github.com/Exploratory-Projects/chatbot-backend.git",
+      "language": "python",
+      "description": "Chatbot backend service"
+    },
+    {
+      "name": "firebase-backend",
+      "url": "https://github.com/Exploratory-Projects/firebase-backend.git",
+      "language": "python",
+      "description": "Firebase backend service"
+    },
+    {
+      "name": "workflow-builder",
+      "url": "https://github.com/Exploratory-Projects/workflow-builder.git",
+      "language": "python",
+      "description": "Workflow builder"
+    },
+    {
+      "name": "ally-ai-production",
+      "url": "https://github.com/Exploratory-Projects/ally-ai-production.git",
+      "language": "typescript",
+      "description": "Ally AI production application"
+    }
+  ]
+}
