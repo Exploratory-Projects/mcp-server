@@ -1,18 +1,19 @@
 # Dealership AI MCP Server
 
-MCP (Model Context Protocol) server for managing Dealership AI repositories. Provides tools for file operations, git management, and code search across all project repos.
+MCP server that gives AI agents superpowers when working across the Dealership AI / AllyAI codebase. Instead of spending 20+ tool calls exploring a repo, agents get instant architecture understanding, pattern-aware code generation, cross-repo search, and one-call validation.
 
-## Configured Repos
+## Why This Exists
 
-| Repo | Language |
-|------|----------|
-| voice-backend-v2 | Python |
-| admin-dashboard | Python |
-| selinium-browser-automation | Python |
-| chatbot-backend | Python |
-| firebase-backend | Python |
-| workflow-builder | Python |
-| ally-ai-production | TypeScript |
+Giving an agent direct repo access is slow — they spend most of their time exploring, reading files to understand patterns, and manually validating. This MCP server eliminates that overhead:
+
+| Without MCP Server | With MCP Server |
+|---|---|
+| 20+ reads to understand a repo | `get_codebase_summary()` — one call |
+| Read 5 files to learn the pattern | `extract_patterns()` — one call |
+| Search repos one at a time | `search_all_repos()` — all 7 at once |
+| Write boilerplate from scratch | `scaffold_*()` — pattern-matching generation |
+| Manual lint + type check + test | `validate_changes()` — one call |
+| No cross-repo awareness | `get_service_map()` — full dependency graph |
 
 ## Setup
 
@@ -20,29 +21,7 @@ MCP (Model Context Protocol) server for managing Dealership AI repositories. Pro
 pip install -e .
 ```
 
-Or with requirements:
-
-```bash
-pip install -r requirements.txt
-```
-
-## Running
-
-```bash
-# Run directly
-python -m src.server
-
-# Or via installed entry point
-dealership-mcp
-```
-
-## Configuration
-
-Edit `config.json` to modify repos or workspace directory. Set `MCP_CONFIG_PATH` env var to use a custom config location.
-
 ## Adding to Claude Code
-
-Add to your Claude Code MCP settings (`~/.claude/settings.json` or project `.claude/settings.json`):
 
 ```json
 {
@@ -58,8 +37,7 @@ Add to your Claude Code MCP settings (`~/.claude/settings.json` or project `.cla
 
 ## Adding to Cursor
 
-Add to `.cursor/mcp.json` in your project:
-
+Add to `.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
@@ -72,45 +50,63 @@ Add to `.cursor/mcp.json` in your project:
 }
 ```
 
-## Available Tools
+## Tool Categories
 
-### Repo Management
-- `list_repos` - List all configured repos and clone status
-- `clone_repo` - Clone a specific repo
-- `clone_all_repos` - Clone all repos
-- `get_repo_info` - Detailed repo info (branch, remotes, recent commits)
-- `pull_repo` - Pull latest changes
+### Context Tools — Instant Codebase Understanding
+- `get_codebase_summary(repo)` — Full architecture: framework, endpoints, models, deps, env vars, biggest files
+- `extract_patterns(repo)` — Coding conventions: import style, endpoint patterns, error handling, model patterns, naming
+- `get_function_context(repo, func)` — Complete context: definition, callers, callees, tests, imports
+- `get_api_surface(repo)` — All endpoints with request/response types and router registration
+- `get_dependency_graph(repo)` — Internal module import graph (foundational vs leaf modules)
 
-### File Operations
-- `read_file` - Read file contents with line numbers
-- `write_file` - Create or overwrite a file
-- `edit_file` - Find-and-replace edit
-- `delete_file` - Delete a file
-- `list_files` - Glob-based file listing
-- `search_code` - Regex search across files (uses ripgrep)
-- `get_file_tree` - Directory tree view
+### Scaffold Tools — Pattern-Aware Code Generation
+- `scaffold_fastapi_endpoint(...)` — Generate endpoint matching the repo's exact patterns
+- `scaffold_react_component(...)` — Generate component with proper imports, styling, hooks
+- `scaffold_pydantic_model(...)` — Generate model matching conventions
+- `scaffold_test(repo, file)` — Generate test file for any source file
+- `scaffold_from_example(repo, template_file, new_name, modifications)` — Clone + modify any file
+- `create_new_repo(name, template, description)` — Create new GitHub repo (fastapi/react-vite/python-service)
 
-### Git Operations
-- `git_status` - Working tree status
-- `git_diff` - View changes
-- `git_log` - Commit history
-- `git_branch` - List/create/delete branches
-- `git_checkout` - Switch branches
-- `git_add` - Stage files
-- `git_commit` - Commit changes
-- `git_push` - Push to remote
-- `git_pull` - Pull from remote
-- `git_stash` - Stash/pop changes
-- `create_pull_request` - Create GitHub PR (via gh CLI)
-- `run_command` - Run arbitrary shell commands in repo context
+### Cross-Repo Tools — Multi-Repo Operations
+- `search_all_repos(pattern)` — Search all 7 repos simultaneously
+- `get_service_map()` — Discover how services connect: shared Firestore, env vars, external APIs
+- `find_shared_models()` — Find data models that appear across repos (API contracts)
+- `get_deployment_overview()` — Docker, ports, Cloud Run config for all repos
+- `batch_git_status()` — Git status of all repos in one call
+- `batch_git_pull()` — Pull all repos at once
+- `batch_create_branch(name)` — Create same branch across all repos
 
-## Branch Strategy
+### Validation Tools — Quality Before Committing
+- `validate_repo(repo)` — Full suite: syntax + lint + type check + tests
+- `validate_changes(repo)` — Validate only uncommitted files (fast)
+- `check_syntax(repo, file)` — Quick syntax check on one file
+- `check_imports(repo, file)` — Verify all imports resolve
+- `run_tests(repo)` — Run test suite
 
-Each target repo has a dedicated branch in this mcp-server repo for repo-specific tool implementations:
-- `voice-backend-v2`
-- `admin-dashboard`
-- `selinium-browser-automation`
-- `chatbot-backend`
-- `firebase-backend`
-- `workflow-builder`
-- `ally-ai-production`
+### Core Tools — File, Git, Repo Management
+- File ops: `read_file`, `write_file`, `edit_file`, `delete_file`, `list_files`, `search_code`, `get_file_tree`
+- Git ops: `git_status`, `git_diff`, `git_log`, `git_branch`, `git_checkout`, `git_add`, `git_commit`, `git_push`, `git_pull`, `git_stash`, `create_pull_request`, `run_command`
+- Repo ops: `list_repos`, `clone_repo`, `clone_all_repos`, `get_repo_info`, `pull_repo`
+
+## Resources (Auto-Loaded Context)
+- `repo://overview` — Complete system architecture and how services connect
+- `repo://conventions` — Coding patterns across all repos
+- `repo://quick-start` — Step-by-step guide for agents
+
+## Prompts (Task Templates)
+- `implement_feature(repo, description)` — Guided feature implementation
+- `fix_bug(repo, description)` — Guided bug fixing
+- `add_endpoint(repo, description)` — Guided endpoint addition
+- `cross_repo_change(description)` — Guided multi-repo changes
+
+## Configured Repos
+
+| Repo | Language | Purpose |
+|------|----------|---------|
+| voice-backend-v2 | Python | Voice AI agent for dealership phone calls |
+| admin-dashboard | Python | Admin panel API for dealership staff |
+| selinium-browser-automation | Python | Selenium appointment booking service |
+| chatbot-backend | Python | Multi-tenant AI chatbot backend |
+| firebase-backend | Python | Core REST API (users, conversations, tasks) |
+| workflow-builder | Python | NLP-driven campaign workflow engine |
+| ally-ai-production | TypeScript | Marketing/landing site (React + Vite) |
