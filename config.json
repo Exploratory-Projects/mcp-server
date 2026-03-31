@@ -6,43 +6,43 @@
       "name": "voice-backend-v2",
       "url": "https://github.com/Exploratory-Projects/voice-backend-v2.git",
       "language": "python",
-      "description": "Voice backend service v2"
+      "description": "FastAPI voice AI backend for auto dealerships - handles ElevenLabs/Retell AI webhooks, vehicle search, appointment scheduling, post-call processing"
     },
     {
       "name": "admin-dashboard",
       "url": "https://github.com/Exploratory-Projects/admin-dashboard.git",
       "language": "python",
-      "description": "Admin dashboard"
+      "description": "FastAPI admin dashboard backend for AllyAI - conversations, tasks, campaigns, analytics, workflows for dealership staff"
     },
     {
       "name": "selinium-browser-automation",
       "url": "https://github.com/Exploratory-Projects/selinium-browser-automation.git",
       "language": "python",
-      "description": "Selenium browser automation"
+      "description": "Selenium browser automation for dealership appointment booking - multi-dealership flows via Xtime/direct schedulers on Cloud Run"
     },
     {
       "name": "chatbot-backend",
       "url": "https://github.com/Exploratory-Projects/chatbot-backend.git",
       "language": "python",
-      "description": "Chatbot backend service"
+      "description": "AllyAI multi-tenant chatbot backend - conversational AI for dealership inventory, service appointments, parts via OpenAI + LangChain + SQLite"
     },
     {
       "name": "firebase-backend",
       "url": "https://github.com/Exploratory-Projects/firebase-backend.git",
       "language": "python",
-      "description": "Firebase backend service"
+      "description": "FastAPI backend for AllyAI dealership platform - users, conversations, post-call AI processing, tasks, email campaigns, all backed by Firestore"
     },
     {
       "name": "workflow-builder",
       "url": "https://github.com/Exploratory-Projects/workflow-builder.git",
       "language": "python",
-      "description": "Workflow builder"
+      "description": "NLP-driven workflow orchestration backend for dealership outreach campaigns - LLM workflow generation, multi-channel execution (Email/SMS/Voice) via APScheduler"
     },
     {
       "name": "ally-ai-production",
       "url": "https://github.com/Exploratory-Projects/ally-ai-production.git",
       "language": "typescript",
-      "description": "Ally AI production application"
+      "description": "Ally AI production marketing/landing site - React 18 + Vite SPA with Supabase backend, Vapi/ElevenLabs voice, shadcn/ui, Tailwind CSS"
     }
   ]
 }
